@@ -28,7 +28,7 @@ class GradeController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('super', 'under', 'co'),
+				'actions'=>array('super', 'under', 'co', 'me'),
 				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
