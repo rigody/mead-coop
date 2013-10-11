@@ -57,7 +57,7 @@ class EvaluationController extends Controller
     'params' => array(':role' => $me->role, ':id' => $me->id)
     ));
     
-    $all = array_merge($super, array_merge($under, $co));
+    $all = array_merge($super, array_merge($under, array_merge($co, array($me))));
     $rem = array();
     foreach ($all as $u)
     {

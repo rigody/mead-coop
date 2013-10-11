@@ -112,5 +112,29 @@ class GradeController extends Controller
 		  'model' => $model,
 	  ));
 	}
+	
+	public function actionMe($id)
+	{
+	  $u = User::model()->findByPk($id);
+    if ($u === null)
+      throw new CHttpException(400, 'Invalid Request');
+    
+	  $model = new GradeMeForm;
+	  
+	  if (isset($_POST['GradeMeForm']))
+	  {
+	    $model->attributes = $_POST['GradeMeForm'];
+	    if ($model->validate())
+	    {
+    	  $e = Evaluation::model()->find(array('order' => 'id DESC'));
+	      $model->save(Yii::app()->user->id, $id, $e->id);
+	      $this->redirect($this->createUrl('evaluation/viewall'));
+	    }
+	  }
+	  
+		$this->render('me', array(
+		  'model' => $model,
+	  ));
+	}
 
 }
