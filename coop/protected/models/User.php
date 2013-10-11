@@ -167,6 +167,9 @@ class User extends CActiveRecord
     {
       $u = User::model()->findByPk(Yii::app()->user->id);
       
+      if ($u->id == $this->id)
+        return Yii::app()->createUrl('grade/me', array('id' => $this->id));
+      
       if ($u->isSuper($this->id))
         return Yii::app()->createUrl('grade/super', array('id' => $this->id));
       
@@ -175,9 +178,6 @@ class User extends CActiveRecord
       
       if ($u->isCo($this->id))
         return Yii::app()->createUrl('grade/co', array('id' => $this->id));
-      
-      if ($u->id == $this->id)
-        return Yii::app()->createUrl('grade/me', array('id' => $this->id));
     }
     
     public function calcScore($e)
