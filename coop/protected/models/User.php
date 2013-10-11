@@ -176,6 +176,8 @@ class User extends CActiveRecord
       if ($u->isCo($this->id))
         return Yii::app()->createUrl('grade/co', array('id' => $this->id));
       
+      if ($u->id == $this->id)
+        return Yii::app()->createUrl('grade/me', array('id' => $this->id));
     }
     
     public function calcScore($e)
