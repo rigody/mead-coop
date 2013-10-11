@@ -1,0 +1,22 @@
+2013/10/08 21:31:55 [error] [exception.CException] exception 'CException' with message 'User and its behaviors do not have a method or closure named "checkPassword".' in /var/www/repos/foo/yii/framework/base/CComponent.php:266
+Stack trace:
+#0 /var/www/repos/foo/yii/framework/db/ar/CActiveRecord.php(227): CComponent->__call('checkPassword', Array)
+#1 /var/www/repos/foo/coop/protected/components/UserIdentity.php(28): CActiveRecord->__call('checkPassword', Array)
+#2 /var/www/repos/foo/coop/protected/components/UserIdentity.php(28): User->checkPassword('admin')
+#3 /var/www/repos/foo/coop/protected/models/LoginForm.php(52): UserIdentity->authenticate()
+#4 /var/www/repos/foo/yii/framework/validators/CInlineValidator.php(42): LoginForm->authenticate('password', Array)
+#5 /var/www/repos/foo/yii/framework/validators/CValidator.php(213): CInlineValidator->validateAttribute(Object(LoginForm), 'password')
+#6 /var/www/repos/foo/yii/framework/base/CModel.php(159): CValidator->validate(Object(LoginForm), NULL)
+#7 /var/www/repos/foo/coop/protected/controllers/SiteController.php(94): CModel->validate()
+#8 /var/www/repos/foo/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionLogin()
+#9 /var/www/repos/foo/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#10 /var/www/repos/foo/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#11 /var/www/repos/foo/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/repos/foo/yii/framework/web/CWebApplication.php(282): CController->run('login')
+#13 /var/www/repos/foo/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('site/login')
+#14 /var/www/repos/foo/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/repos/foo/coop/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/repos/foo/coop/index.php/site/login
+HTTP_REFERER=http://localhost/repos/foo/coop/index.php/site/login
+---
