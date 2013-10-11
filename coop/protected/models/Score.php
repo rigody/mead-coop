@@ -116,9 +116,9 @@ class Score extends CActiveRecord
 	    return 0;
     
     if ($this->score >= 6 && $this->score < 7.5)
-      return (float)($u->salary * $this->score / 2.0);
+      return (float)($u->salary * $this->score / 200.0);
     
     if ($this->score >= 7.5)
-      return (float)($u->salary * $this->score);
+      return (float)($u->salary * $this->score / 100.0);
 	}
 }
