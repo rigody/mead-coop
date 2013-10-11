@@ -33,7 +33,6 @@ $('.search-form form').submit(function(){
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'id',
 		array(
 		  'name' => 'uname',
 		  'value' => '$data->relUser->name',
