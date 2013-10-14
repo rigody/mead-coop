@@ -112,13 +112,13 @@ class Score extends CActiveRecord
 	{
 	  $u = $this->relUser();
 	  
-	  if ($this->score < 6)
+	  if ($this->score < 7.2)
 	    return 0;
     
-    if ($this->score >= 6 && $this->score < 7.5)
+    if ($this->score >= 7.2 && $this->score < 8.5)
       return (float)($u->salary * $this->score / 200.0);
     
-    if ($this->score >= 7.5)
+    if ($this->score >= 8.5)
       return (float)($u->salary * $this->score / 100.0);
 	}
 }
