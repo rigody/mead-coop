@@ -21,6 +21,7 @@ $this->pageTitle=Yii::app()->name;
   <div>
     <p>
       <?php echo CHtml::link('Calculate Scores', $this->createUrl('score/calculate')); ?>
+      <?php echo CHtml::link('Distribute Task Bonuses', $this->createUrl('money/add')); ?>
     </p>
   </div>
   
@@ -29,6 +30,8 @@ $this->pageTitle=Yii::app()->name;
   <div>
     <p>
       <?php echo CHtml::link('Results', $this->createUrl('score/admin')); ?>
+      <?php echo CHtml::link('Suggestions', $this->createUrl('score/upgrade')); ?>
+      <?php echo CHtml::link('Task Bonuses', $this->createUrl('money/admin')); ?>
     </p>
   </div>
 <?php endif; ?>

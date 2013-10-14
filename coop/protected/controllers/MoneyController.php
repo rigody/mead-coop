@@ -1,6 +1,6 @@
 <?php
 
-class ScoreController extends Controller
+class MoneyController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -36,13 +36,30 @@ class ScoreController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete', 'calculate', 'upgrade'),
+				'actions'=>array('admin','delete', 'add'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
 		);
+	}
+	
+	public function actionAdd()
+	{
+	  $mform = new MoneyAddForm;
+	  
+	  if (isset($_POST['MoneyAddForm']))
+	  {
+	    $mform->attributes = $_POST['MoneyAddForm'];
+	    if ($mform->validate())
+	    {
+	      $mform->save();
+	      $this->redirect('admin');
+      }
+	  }
+	  
+	  $this->render('add', array('model'=>$mform));
 	}
 
 	/**
@@ -62,14 +79,14 @@ class ScoreController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Score;
+		$model=new Money;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Score']))
+		if(isset($_POST['Money']))
 		{
-			$model->attributes=$_POST['Score'];
+			$model->attributes=$_POST['Money'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -91,9 +108,9 @@ class ScoreController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Score']))
+		if(isset($_POST['Money']))
 		{
-			$model->attributes=$_POST['Score'];
+			$model->attributes=$_POST['Money'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -122,7 +139,7 @@ class ScoreController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Score');
+		$dataProvider=new CActiveDataProvider('Money');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -133,108 +150,26 @@ class ScoreController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Score('search');
+		$model=new Money('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Score']))
-			$model->attributes=$_GET['Score'];
+		if(isset($_GET['Money']))
+			$model->attributes=$_GET['Money'];
 
 		$this->render('admin',array(
 			'model'=>$model,
 		));
-	}
-	
-	public function actionCalculate()
-	{
-	  $es = Evaluation::model()->findAll(array('order' => 'id DESC'));
-	  $us = User::model()->findAll(array('condition' => 'id != 1'));
-	  
-	  foreach ($es as $e)
-	  {
-	    foreach ($us as $u)
-	    {
-	      $s = Score::model()->find(array(
-	        'condition' => 'user = :u AND evaluation = :e',
-	        'params' => array(
-	          ':u' => $u->id,
-	          ':e' => $e->id
-	        ),
-	      ));
-	      
-	      $score = $u->calcScore($e->id);
-	      if ($score == null)
-	        continue;
-	      
-	      if ($s === null)
-	      {
-	        $s = new Score;
-	        $s->user = $u->id;
-	        $s->evaluation = $e->id;
-	      }
-        $s->score = $score;
-        $s->save();
-	    }
-	  }
-	  
-	  $this->render('calculate');
-	}
-	
-	public function actionUpgrade()
-	{
-	  $us = User::model()->findAll(array('condition' => 'id != 1'));
-	  
-	  $text = array();
-	  foreach ($us as $u)
-	  {
-	    switch ($u->role)
-	    {
-	      case 2: // Manager
-	        // Demote
-	        $gs = Score::model()->findAll(array('condition' => 'user = :u AND score < 7.0', 'params' => array(':u' => $u->id)));
-	        if (count($gs) > 30)
-	          $text[] = $u->name . ' (Manager) : DEMOTED';
-	        break;
-        case 3: // Section Manager
-          // Promote
-          $gs = Score::model()->findAll(array('condition' => 'user = :u AND score >= 9.5', 'params' => array(':u' => $u->id)));
-	        if (count($gs) > 30)
-	          $text[] = $u->name . ' (Section Manager) : PROMOTED';
-          // Demote
-          $gs = Score::model()->findAll(array('condition' => 'user = :u AND score < 6.8', 'params' => array(':u' => $u->id)));
-	        if (count($gs) > 30)
-	          $text[] = $u->name . ' (Section Manager) : DEMOTED';
-          break;
-        case 4: // Dept Manager
-          // Promote
-          $gs = Score::model()->findAll(array('condition' => 'user = :u AND score >= 9.2', 'params' => array(':u' => $u->id)));
-	        if (count($gs) > 30)
-	          $text[] = $u->name . ' (Dept Manager) : PROMOTED';
-          // Demote
-          $gs = Score::model()->findAll(array('condition' => 'user = :u AND score < 6.5', 'params' => array(':u' => $u->id)));
-	        if (count($gs) > 20)
-	          $text[] = $u->name . ' (Dept Manager) : DEMOTED';
-          break;
-        case 5: // Worker
-          // Promote
-          $gs = Score::model()->findAll(array('condition' => 'user = :u AND score >= 9.0', 'params' => array(':u' => $u->id)));
-	        if (count($gs) > 20)
-	          $text[] = $u->name . ' (Worker) : PROMOTED';
-          break;
-	    }
-	  }
-	  
-	  $this->render('upgrade', array('text' => $text));
 	}
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Score the loaded model
+	 * @return Money the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=Score::model()->findByPk($id);
+		$model=Money::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -242,11 +177,11 @@ class ScoreController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Score $model the model to be validated
+	 * @param Money $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='score-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='money-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

@@ -1,28 +1,24 @@
 <?php
 
 /**
- * This is the model class for table "score".
+ * This is the model class for table "money".
  *
- * The followings are the available columns in table 'score':
+ * The followings are the available columns in table 'money':
  * @property integer $id
  * @property integer $user
- * @property integer $evaluation
- * @property double $score
+ * @property double $money
  *
  * The followings are the available model relations:
  * @property User $user0
- * @property Evaluation $evaluation0
  */
-class Score extends CActiveRecord
+class Money extends CActiveRecord
 {
-  public $ename;
-  public $uname;
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'score';
+		return 'money';
 	}
 
 	/**
@@ -33,12 +29,12 @@ class Score extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user, evaluation, score', 'required'),
-			array('user, evaluation', 'numerical', 'integerOnly'=>true),
-			array('score', 'numerical'),
+			array('user', 'required'),
+			array('user', 'numerical', 'integerOnly'=>true),
+			array('money', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user, evaluation, score, ename, uname', 'safe', 'on'=>'search'),
+			array('id, user, money', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,7 +47,6 @@ class Score extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'relUser' => array(self::BELONGS_TO, 'User', 'user'),
-			'relEvaluation' => array(self::BELONGS_TO, 'Evaluation', 'evaluation'),
 		);
 	}
 
@@ -63,8 +58,7 @@ class Score extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'user' => 'User',
-			'evaluation' => 'Evaluation',
-			'score' => 'Score',
+			'money' => 'Money in Euro',
 		);
 	}
 
@@ -85,12 +79,13 @@ class Score extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria(array(
-		  'with' => array('relEvaluation', 'relUser'),
-	  ));
+		  'with' => array('relUser'),
+		));
+    
+//    $criteria->with('relUser');
 		$criteria->compare('id',$this->id);
-		$criteria->compare('relUser.name',$this->uname);
-		$criteria->compare('relEvaluation.name',$this->ename);
-		$criteria->compare('score',$this->score);
+		$criteria->compare('user',$this->user);
+		$criteria->compare('money',$this->money);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -101,32 +96,10 @@ class Score extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Score the static model class
+	 * @return Money the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
-	}
-	
-	public function getBonus()
-	{
-	  $u = $this->relUser();
-	  
-	  if ($this->score < 7.2)
-	    return 0;
-    
-    if ($this->score >= 7.2 && $this->score < 8.5)
-    {
-      $b = (float)($u->salary * $this->score / 200.0);
-      $v = (float)($u->vacation * $this->score / 200.0);
-      return "$b Euro OR $v days";
-    }
-    
-    if ($this->score >= 8.5)
-    {
-      $b = (float)($u->salary * $this->score / 100.0);
-      $v = (float)($u->vacation * $this->score / 100.0);
-      return "$b Euro OR $v days";
-    }
 	}
 }
