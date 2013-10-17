@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'CO-OP',
+	'name'=>'MEAD CO-OP',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
