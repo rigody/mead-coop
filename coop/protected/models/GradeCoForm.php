@@ -30,7 +30,7 @@ class GradeCoForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'x1'=>'Collaboration',
+			'x1'=>'Cooperation',
 			'x2'=>'Team Offer',
 		);
 	}
