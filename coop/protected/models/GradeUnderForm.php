@@ -33,11 +33,11 @@ class GradeUnderForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'x1'=>'x1',
-			'x2'=>'x2',
-			'x3'=>'x3',
-			'x4'=>'x4',
-			'x5'=>'x5',
+			'x1'=>'Goals Achievement',
+			'x2'=>'Presence',
+			'x3'=>'Improvement Suggestions',
+			'x4'=>'Behaviour',
+			'x5'=>'Cooperation',
 		);
 	}
 

@@ -30,8 +30,8 @@ class GradeSuperForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'x1'=>'x1',
-			'x2'=>'x2',
+			'x1'=>'Leadership Abilities',
+			'x2'=>'Behaviour',
 		);
 	}
 

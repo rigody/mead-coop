@@ -29,7 +29,7 @@ class GradeMeForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'x1'=>'x1',
+			'x1'=>'Self Evaluation',
 		);
 	}
 

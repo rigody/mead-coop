@@ -38,7 +38,7 @@ class MoneyAddForm extends CFormModel
   public function save()
   {
     $top = User::model()->findByPk($this->user);
-    $users = array();
+    $users = array($top);
     $temp = $top->relUnder();
     
     while(count($temp))
@@ -48,6 +48,13 @@ class MoneyAddForm extends CFormModel
       $temp = array_merge($temp, $new);
       $users[] = $u;
     }
+	
+	foreach($top->relSuper() as $sup)
+	{
+		$users[] = $sup;
+		foreach ($sup->relSuper() as $supu)
+			$users[] = $supu;
+	}
     
     $n = count($users);
     $amount = ((float) $this->money) * 0.2 / ($n + 1);

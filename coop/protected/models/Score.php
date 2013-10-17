@@ -118,14 +118,14 @@ class Score extends CActiveRecord
     if ($this->score >= 7.2 && $this->score < 8.5)
     {
       $b = (float)($u->salary * $this->score / 200.0);
-      $v = (float)($u->vacation * $this->score / 200.0);
+      $v = round((float)($u->vacation * $this->score / 200.0));
       return "$b Euro OR $v days";
     }
     
     if ($this->score >= 8.5)
     {
       $b = (float)($u->salary * $this->score / 100.0);
-      $v = (float)($u->vacation * $this->score / 100.0);
+      $v = round((float)($u->vacation * $this->score / 100.0));
       return "$b Euro OR $v days";
     }
 	}

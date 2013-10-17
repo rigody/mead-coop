@@ -8,8 +8,19 @@ $this->breadcrumbs=array(
 ?>
 <!-- Edit after Here -->
 
-<h1>About COOP</h1>
+<h1>About <?php echo Yii::app()->name; ?></h1>
 
-<p>Hello my name is Odyseas Rigopoulos, mpla mpla mpla.</p>
+<p>
+	<?php echo Yii::app()->name; ?> is an innovative, decision making, information system. 
+	It is designed for the evaluation and the providing of incentives 
+	to cooperative companies' employees.
+</p>
+
+<p>
+	The idea of <?php echo Yii::app()->name; ?> was conceived by Rigopoulos Odysseas, student of 
+	"Mechanical Engineering and Aeronautics Dept" of University of Patras, 
+	within his Diploma Thesis "Innovative Information System of Evaluation 
+	and Incentives providing in Cooperative Companies".
+</p>
 
 
