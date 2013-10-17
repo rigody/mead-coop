@@ -52,10 +52,22 @@ class EvaluationController extends Controller
     
     $super = $me->relSuper();
     $under = $me->relUnder();
+    
+    $co = array();
+    foreach ($super as $s)
+    {
+      foreach ($s->relUnder() as  $u)
+      {
+        if ($u->id != $me->id)
+          $co[] = $u;
+      }
+    }
+    /*
     $co = User::model()->findAll(array(
     'condition' => 'role = :role AND id != :id',
     'params' => array(':role' => $me->role, ':id' => $me->id)
     ));
+    */
     
     $all = array_merge($super, array_merge($under, array_merge($co, array($me))));
     $rem = array();
